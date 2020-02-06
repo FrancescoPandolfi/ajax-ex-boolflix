@@ -29,7 +29,13 @@ function ajaxRequest(query) {
   },
   success: function (data, stato) {
     var results = data.results;
-    printResult(results);
+    console.log(results);
+    console.log(results.length);
+
+
+
+
+    printResult(results, query);
   },
   error: function (richiesta, stato, errore) {
     alert("È avvenuto un errore. " + errore);
@@ -38,19 +44,23 @@ function ajaxRequest(query) {
 }
 
 
-function printResult(results) {
+function printResult(results, query) {
   var source = $("#movies-template").html();
   var template = Handlebars.compile(source);
   $(".movies").html('');
 
+  if (results.length == 0) {
+    $('.movies').append(`<li>Your search for ${query} did not have any matches.</li>`);
+  }
+
   results.forEach(function(item, i) {
-    var context = {
-      original_title: item.original_title,
-      original_language: item.original_language,
-      vote_average: item.vote_average,
-      release_date: item.release_date
-    };
-    var html = template(context);
+    // var context = {
+    //   original_title: item.original_title,
+    //   original_language: item.original_language,
+    //   vote_average: item.vote_average,
+    //   release_date: item.release_date
+    // };
+    var html = template(item);
     $(".movies").append(html);
   });
 }
