@@ -10,14 +10,16 @@ $(document).ready(function () {
 
     if (query != "") {
       ajaxRequest(query);
+    } else {
+      $(".movies").html('');
     }
 
   });
 
 });
 
-
 // FUNZIONI
+
 
 function ajaxRequest(query) {
   $.ajax({
@@ -29,6 +31,12 @@ function ajaxRequest(query) {
   },
   success: function (data, stato) {
     var results = data.results;
+    console.log(results);
+    console.log(results.length);
+
+
+
+
     printResult(results, query);
   },
   error: function (richiesta, stato, errore) {
