@@ -27,7 +27,10 @@
 
 
   <script id="movies-template" type="text/x-handlebars-template">
-    <li>{{title}} - {{lang}} - {{vote}}
+    <li>{{title}} -
+      <span class="lang">
+        <img class="flags" src="img/lang/{{lang}}.svg" alt="">
+      </span> - {{vote}}
       <i class="{{star1}} fa-star"></i>
       <i class="{{star2}} fa-star"></i>
       <i class="{{star3}} fa-star"></i>

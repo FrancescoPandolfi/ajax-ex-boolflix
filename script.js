@@ -55,25 +55,25 @@ function printResult(results, query) {
 
   // handlebars generate and insert content
   results.forEach(function(item) {
+
     var context = {
       title: item.title,
       lang: function setFlag() {
-        if (item.original_language == 'lingua') {
-
-        } else {
-        return item.original_language
-        }
+        return item.original_language;
       },
-      // vote: item.vote_average,
-      star1: 'far',
-      star2: 'far',
-      star3: 'far',
-      star4: 'far',
-      star5: 'far'
+      vote: item.vote_average,
     };
-    changeStars(item, context);
+    addStars(item, context);
+
     var html = template(context);
     $(".movies").append(html);
+
+
+    // $(".flags").onerror = function() {
+    //   $(".lang").html("item.original_language");
+    // };
+
+
   });
 }
 
@@ -97,16 +97,14 @@ function roundTheVote(results) {
 }
 
 // Inserisce le stelle piene in base al numero della votazione
-function changeStars(item, context) {
-  if (item.vote_average == 1) {
-    context.star1 = 'fas';
-  } else if (item.vote_average == 2) {
-    context.star1 = context.star2 = 'fas';
-  } else if (item.vote_average == 3) {
-    context.star1 = context.star2 = context.star3 = 'fas';
-  } else if (item.vote_average == 4) {
-    context.star1 = context.star2 = context.star3 = context.star4 = 'fas';
-  } else if (item.vote_average == 5) {
-    context.star1 = context.star2 = context.star3 = context.star4 = context.star5 = 'fas';
+function addStars(item, context) {
+
+  for (var i = 1; i <= 5; i++) {
+    if (item.vote_average < i) {
+      context["star" + i] = "far";
+    } else {
+      context["star" + i] = "fas";
+    }
   }
+
 }
