@@ -57,8 +57,14 @@ function printResult(results, query) {
   results.forEach(function(item) {
     var context = {
       title: item.title,
-      lang: item.original_language,
-      vote: item.vote_average,
+      lang: function setFlag() {
+        if (item.original_language == 'lingua') {
+
+        } else {
+        return item.original_language
+        }
+      },
+      // vote: item.vote_average,
       star1: 'far',
       star2: 'far',
       star3: 'far',
@@ -83,12 +89,14 @@ function orderResults(results) {
   });
 }
 
+// Arrotonda per eccesso e trasforma la votazione da 1-10 a 1-5
 function roundTheVote(results) {
   results.forEach(function(item) {
     item.vote_average = Math.ceil(item.vote_average / 2);
   });
 }
 
+// Inserisce le stelle piene in base al numero della votazione
 function changeStars(item, context) {
   if (item.vote_average == 1) {
     context.star1 = 'fas';
