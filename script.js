@@ -1,8 +1,5 @@
 $(document).ready(function () {
 
-  // $(document).on( "", "", function() {
-  // });
-
   $(".search").focus();
 
   $('.search').on('keyup', function() {
@@ -11,15 +8,15 @@ $(document).ready(function () {
     if (query != "") {
       ajaxRequest(query);
     } else {
-      $(".movies").html('');
+      resetContent();
     }
 
   });
 
-});
+}); // end document ready
 
-// FUNZIONI
 
+// FUNCTIONS ------------------------------------------
 
 function ajaxRequest(query) {
   $.ajax({
@@ -31,12 +28,7 @@ function ajaxRequest(query) {
   },
   success: function (data, stato) {
     var results = data.results;
-    console.log(results);
-    console.log(results.length);
-
-
-
-
+    roundTheVote(results);
     printResult(results, query);
   },
   error: function (richiesta, stato, errore) {
@@ -47,22 +39,66 @@ function ajaxRequest(query) {
 
 
 function printResult(results, query) {
+
+  resetContent();
+
+  // handlebars select source and compile template
   var source = $("#movies-template").html();
   var template = Handlebars.compile(source);
-  $(".movies").html('');
 
+  orderResults(results);
+
+  // Se la ricerca non va a buon fine viene avvisato l'utente
   if (results.length == 0) {
     $('.movies').append(`<li>Your search for ${query} did not have any matches.</li>`);
   }
 
-  results.forEach(function(item, i) {
-    // var context = {
-    //   original_title: item.original_title,
-    //   original_language: item.original_language,
-    //   vote_average: item.vote_average,
-    //   release_date: item.release_date
-    // };
-    var html = template(item);
+  // handlebars generate and insert content
+  results.forEach(function(item) {
+    var context = {
+      title: item.title,
+      lang: item.original_language,
+      vote: item.vote_average,
+      star1: 'far',
+      star2: 'far',
+      star3: 'far',
+      star4: 'far',
+      star5: 'far'
+    };
+    changeStars(item, context);
+    var html = template(context);
     $(".movies").append(html);
   });
+}
+
+  // Svuota tutto
+function resetContent() {
+  $(".movies").html('');
+}
+
+// Ordina in base alla popolarità
+function orderResults(results) {
+  results.sort(function(b, a){
+    return a.vote_average - b.vote_average;
+  });
+}
+
+function roundTheVote(results) {
+  results.forEach(function(item) {
+    item.vote_average = Math.ceil(item.vote_average / 2);
+  });
+}
+
+function changeStars(item, context) {
+  if (item.vote_average == 1) {
+    context.star1 = 'fas';
+  } else if (item.vote_average == 2) {
+    context.star1 = context.star2 = 'fas';
+  } else if (item.vote_average == 3) {
+    context.star1 = context.star2 = context.star3 = 'fas';
+  } else if (item.vote_average == 4) {
+    context.star1 = context.star2 = context.star3 = context.star4 = 'fas';
+  } else if (item.vote_average == 5) {
+    context.star1 = context.star2 = context.star3 = context.star4 = context.star5 = 'fas';
+  }
 }

@@ -11,6 +11,8 @@
   crossorigin="anonymous"></script>
   <!-- handlebars.js -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.3/handlebars.js" charset="utf-8"></script>
+  <!-- Font awesome -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/js/all.min.js" charset="utf-8"></script>
   <title>Boolflix</title>
 </head>
 <body>
@@ -23,8 +25,15 @@
 
 
 
+
   <script id="movies-template" type="text/x-handlebars-template">
-    <li>{{original_title}} - {{original_language}} - {{vote_average}} - {{release_date}}</li>
+    <li>{{title}} - {{lang}} - {{vote}}
+      <i class="{{star1}} fa-star"></i>
+      <i class="{{star2}} fa-star"></i>
+      <i class="{{star3}} fa-star"></i>
+      <i class="{{star4}} fa-star"></i>
+      <i class="{{star5}} fa-star"></i>
+    </li>
   </script>
 
   <script src="script.js" charset="utf-8"></script>

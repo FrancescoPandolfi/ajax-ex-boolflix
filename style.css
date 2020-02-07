@@ -15,3 +15,11 @@ input {
   height: 30px;
   margin-bottom: 50px;
 }
+
+i {
+  color: white;
+}
+
+li {
+  padding: 10px;
+}
