@@ -27,9 +27,12 @@
 
 
   <script id="movies-template" type="text/x-handlebars-template">
-    <li>{{title}} -
+    <li>
+      <span><img src="{{poster_path}}" alt=""> </span>
+      {{title}} -
+
       <span class="lang">
-        <img class="flags" src="img/lang/{{lang}}.svg" alt="">
+        <img class="flags" src="{{lang}}" alt="">
       </span> - {{vote}}
       <i class="{{star1}} fa-star"></i>
       <i class="{{star2}} fa-star"></i>
