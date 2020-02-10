@@ -17,34 +17,65 @@
 </head>
 <body>
 
-  <input class="search" type="text" name="" value="" placeholder="Search a title">
-  <h2>Movies</h2>
-  <ul class="movies">
+  <header>
+  <div class="menu-bar">
+    <img class="logo" src="img/netflix.png" alt="">
+    <img src="img/search-big.svg" alt="">
+    <input class="search" type="text" name="" value="" placeholder="Search a title">
+  </div>
+</header>
 
-  </ul>
-    <h2>Series</h2>
-  <ul class="series">
+<main>
+  <div class="movies">
 
-  </ul>
+    <!-- <div class="element">
+      <div class="content">
+        <img src="img/joker.jpg" alt="">
+      </div>
+    </div> -->
+
+  </div>
+  <div class="series">
+
+    <div class="element">
+      <div class="content">
+        <img src="img/joker.jpg" alt="">
+      </div>
+    </div>
+
+  </div>
+
+
+  <div class="details">
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+  </div>
+
+
+
+</main>
+
 
 
 
 
 
   <script id="movies-template" type="text/x-handlebars-template">
-    <li>
-      <span><img src="{{poster_path}}" alt=""> </span>
+    <div class="element">
+      <div class="content">
+        <img src="{{poster_path}}" alt="">
+      </div>
+    </div>
+
+    <!-- <li>
+      <span> </span>
       {{title}} -
 
       <span class="lang">
-        <img class="flags" src="{{lang}}" alt="">
+        {{{lang}}}
       </span> - {{vote}}
-      <i class="{{star1}} fa-star"></i>
-      <i class="{{star2}} fa-star"></i>
-      <i class="{{star3}} fa-star"></i>
-      <i class="{{star4}} fa-star"></i>
-      <i class="{{star5}} fa-star"></i>
-    </li>
+      {{{star}}}
+    </li> -->
+
   </script>
 
   <script src="script.js" charset="utf-8"></script>

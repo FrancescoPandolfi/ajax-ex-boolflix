@@ -14,6 +14,19 @@ $(document).ready(function () {
 
   });
 
+  $(document).on( "mouseenter", ".content", function() {
+    $(this).children('img').addClass('active');
+  });
+  $(document).on( "mouseleave", ".content", function() {
+    $(this).children('img').removeClass('active');
+  });
+  $(document).on( "click", ".content", function() {
+    $('.details').addClass('show');
+  });
+  $(document).on( "click", ".details", function() {
+    $('.details').removeClass('show');
+  });
+
 }); // end document ready
 
 
@@ -25,7 +38,8 @@ function getMovies(query) {
   method: "GET",
   data: {
     api_key: 'b7db4886e799d733a0c24ab663a6b884',
-    query: query
+    query: query,
+    language: 'en-EN'
   },
   success: function (data, stato) {
     var movies = data.results;
@@ -73,8 +87,6 @@ function printResult(type, results, query) {
   var source = $("#movies-template").html();
   var template = Handlebars.compile(source);
 
-  orderResults(results);
-
   // Se la ricerca non va a buon fine viene avvisato l'utente
   if (type == "movies" && results.length == 0) {
     $('.movies').append(`<li>Your search for ${query} did not have any matches.</li>`);
@@ -84,14 +96,13 @@ function printResult(type, results, query) {
   }
 
 
-
   // generate content for handlebars
   results.forEach(function(item) {
 
     function setPoster(item) {
       let imgUrl = '';
       if (item.poster_path) {
-        imgUrl = 'https://image.tmdb.org/t/p/w92/' + item.poster_path;
+        imgUrl = 'https://image.tmdb.org/t/p/w500/' + item.poster_path;
       } else {
         imgUrl = 'img/noimg.jpg';
       }
@@ -102,9 +113,9 @@ function printResult(type, results, query) {
       title: chooseTitleKey(item),
       lang: setFlag(item),
       poster_path: setPoster(item),
-      // vote: item.vote_average,
+      star: addStars(item)
     };
-    addStars(item, context);
+
 
     // {handlebars} compile template with all the data
     var html = template(context);
@@ -126,12 +137,6 @@ function resetContent() {
   $(".series").html('');
 }
 
-// Ordina in base alla popolarità
-function orderResults(results) {
-  results.sort(function(b, a){
-    return a.popularity - b.popularity;
-  });
-}
 
 // Arrotonda per eccesso e trasforma la votazione da 1-10 a 1-5
 function roundTheVote(results) {
@@ -141,32 +146,36 @@ function roundTheVote(results) {
 }
 
 // Inserisce le stelle piene in base al numero della votazione
-function addStars(item, context) {
+function addStars(item) {
+  var stars =  '';
   for (var i = 1; i <= 5; i++) {
     if (item.vote_average < i) {
-      context["star" + i] = "far";
+      stars += '<i class="far fa-star"></i>';
     } else {
-      context["star" + i] = "fas";
+      stars += '<i class="fas fa-star"></i>';
     }
   }
+  return stars;
 }
 
 function setFlag(item) {
   var availableFlags = ['en', 'de', 'es', 'fr', 'it', 'pt'];
   var itemLanguage = item.original_language;
+  var lang = '';
   if (availableFlags.includes(itemLanguage)) {
-    return `img/lang/${itemLanguage}.svg`;
+    lang = `<img class="flags" src="img/lang/${itemLanguage}.svg" alt="">`;
   } else {
-    $('.lang').html(itemLanguage);
+    lang = itemLanguage;
   }
+  return lang;
 }
 
 function chooseTitleKey(item) {
   let title;
   if (!item.title) {
-    title = item.name;
+    title = item.original_name;
   } else {
-    title = item.title;
+    title = item.original_title;
   }
   return title;
 }
