@@ -13,6 +13,8 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.3/handlebars.js" charset="utf-8"></script>
   <!-- Font awesome -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/js/all.min.js" charset="utf-8"></script>
+  <!-- google font -->
+  <link href="https://fonts.googleapis.com/css?family=Heebo:700&display=swap" rel="stylesheet">
   <title>Boolflix</title>
 </head>
 <body>
@@ -26,29 +28,15 @@
 </header>
 
 <main>
+  <h2>Movies</h2>
   <div class="movies">
 
-    <!-- <div class="element">
-      <div class="content">
-        <img src="img/joker.jpg" alt="">
-      </div>
-    </div> -->
-
   </div>
+  <h2>TV shows</h2>
   <div class="series">
 
-    <div class="element">
-      <div class="content">
-        <img src="img/joker.jpg" alt="">
-      </div>
-    </div>
-
   </div>
 
-
-  <div class="details">
-    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-  </div>
 
 
 
@@ -60,23 +48,37 @@
 
 
   <script id="movies-template" type="text/x-handlebars-template">
+
     <div class="element">
+      <div class="info">
+        <div class="tit">{{title}}
+          <div class="stars">Vote: {{{star}}}</div>
+        <div class="lang">Language: {{{lang}}}</div>
+      </div>
+
+      </div>
       <div class="content">
         <img src="{{poster_path}}" alt="">
       </div>
     </div>
-
-    <!-- <li>
-      <span> </span>
-      {{title}} -
-
-      <span class="lang">
-        {{{lang}}}
-      </span> - {{vote}}
-      {{{star}}}
-    </li> -->
+    <div class="details">{{desc}}</div>
 
   </script>
+
+
+
+
+
+
+  <!-- <li>
+    <span> </span>
+    {{title}} -
+
+    <span class="lang">
+      {{{lang}}}
+    </span> - {{vote}}
+    {{{star}}}
+  </li> -->
 
   <script src="script.js" charset="utf-8"></script>
 </body>

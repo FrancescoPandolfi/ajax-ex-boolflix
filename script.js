@@ -14,17 +14,19 @@ $(document).ready(function () {
 
   });
 
-  $(document).on( "mouseenter", ".content", function() {
-    $(this).children('img').addClass('active');
+  $(document).on( "mouseenter", ".element", function() {
+    $(this).find('img').addClass('active');
+    $(this).find('.info').addClass('active');
   });
-  $(document).on( "mouseleave", ".content", function() {
-    $(this).children('img').removeClass('active');
+  $(document).on( "mouseleave", ".element", function() {
+    $(this).find('img').removeClass('active');
+    $(this).find('.info').removeClass('active');
   });
-  $(document).on( "click", ".content", function() {
-    $('.details').addClass('show');
+  $(document).on( "click", ".info", function() {
+    $(this).parent().next('.details').addClass('show');
   });
   $(document).on( "click", ".details", function() {
-    $('.details').removeClass('show');
+    $(this).removeClass('show');
   });
 
 }); // end document ready
@@ -82,6 +84,7 @@ function printResult(type, results, query) {
   } else if (type == 'series') {
     $(".series").html('');
   }
+  $('.details').html('');
 
   // select source and select template for handlebars
   var source = $("#movies-template").html();
@@ -113,7 +116,8 @@ function printResult(type, results, query) {
       title: chooseTitleKey(item),
       lang: setFlag(item),
       poster_path: setPoster(item),
-      star: addStars(item)
+      star: addStars(item),
+      desc: item.overview
     };
 
 
@@ -125,11 +129,9 @@ function printResult(type, results, query) {
     } else {
       $(".series").append(html);
     }
-
-
-
   });
 }
+
 
   // remove all
 function resetContent() {
