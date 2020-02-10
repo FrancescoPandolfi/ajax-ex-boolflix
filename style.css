@@ -148,11 +148,18 @@ main {
   width: 70%;
   height: 70vh;
   position: fixed;
+  padding: 100px 35% 50px;
   top: 15%;
   left: 15vh;
   opacity: 0;
   transition: all .2s ease-in-out;
   background-color: #141413
+}
+@media screen and (max-width:992px) {
+  .details {
+
+    padding: 100px 15% 50px;
+  }
 }
 
 .details.show {

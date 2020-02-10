@@ -84,7 +84,7 @@ function printResult(type, results, query) {
   } else if (type == 'series') {
     $(".series").html('');
   }
-  $('.details').html('');
+  // $('.details').html('');
 
   // select source and select template for handlebars
   var source = $("#movies-template").html();
@@ -119,6 +119,7 @@ function printResult(type, results, query) {
       star: addStars(item),
       desc: item.overview
     };
+    console.log(item.overview);
 
 
     // {handlebars} compile template with all the data
