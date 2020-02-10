@@ -6,7 +6,8 @@ $(document).ready(function () {
     var query = $('.search').val();
 
     if (query != "") {
-      ajaxRequest(query);
+      getMovies(query);
+      getSeries(query)
     } else {
       resetContent();
     }
@@ -18,18 +19,19 @@ $(document).ready(function () {
 
 // FUNCTIONS ------------------------------------------
 
-function ajaxRequest(query) {
+function getMovies(query) {
   $.ajax({
   url: "https://api.themoviedb.org/3/search/movie",
   method: "GET",
-  total_results: 10,
   data: {
     api_key: 'b7db4886e799d733a0c24ab663a6b884',
     query: query
   },
   success: function (data, stato) {
     var movies = data.results;
-    secondAjaxReq(movies, query);
+    console.log(movies);
+    roundTheVote(movies);
+    printResult("movies", movies, query);
   },
   error: function (richiesta, stato, errore) {
     $('.movies').append("<li>È avvenuto un errore. " + errore + "</li>");
@@ -37,7 +39,7 @@ function ajaxRequest(query) {
   });
 }
 
-function secondAjaxReq(movies, query) {
+function getSeries(query) {
   $.ajax({
   url: "https://api.themoviedb.org/3/search/tv",
   method: "GET",
@@ -47,22 +49,25 @@ function secondAjaxReq(movies, query) {
   },
   success: function (data, stato) {
     var series = data.results;
-     var results = movies.concat(series);
-     console.log(results);
-    roundTheVote(results);
-    printResult(results, query);
+     console.log(series);
+    roundTheVote(series);
+    printResult("series", series, query);
   },
   error: function (richiesta, stato, errore) {
-    $('.movies').append("<li>È avvenuto un errore. " + errore + "</li>");
+    $('.series').append("<li>È avvenuto un errore. " + errore + "</li>");
   }
   });
 }
 
 
 
-function printResult(results, query) {
+function printResult(type, results, query) {
 
-  resetContent();
+  if (type == 'movies') {
+    $(".movies").html('');
+  } else if (type == 'series') {
+    $(".series").html('');
+  }
 
   // select source and select template for handlebars
   var source = $("#movies-template").html();
@@ -71,31 +76,46 @@ function printResult(results, query) {
   orderResults(results);
 
   // Se la ricerca non va a buon fine viene avvisato l'utente
-  if (results.length == 0) {
+  if (type == "movies" && results.length == 0) {
     $('.movies').append(`<li>Your search for ${query} did not have any matches.</li>`);
   }
+  if (type == "series" && results.length == 0) {
+    $('.series').append(`<li>Your search for ${query} did not have any matches.</li>`);
+  }
+
+
 
   // generate content for handlebars
   results.forEach(function(item) {
 
-    let title;
-    if (!item.title) {
-      title = item.name;
-    } else {
-      title = item.title;
+    function setPoster(item) {
+      let imgUrl = '';
+      if (item.poster_path) {
+        imgUrl = 'https://image.tmdb.org/t/p/w92/' + item.poster_path;
+      } else {
+        imgUrl = 'img/noimg.jpg';
+      }
+      return imgUrl
     }
 
     var context = {
-      title: title,
+      title: chooseTitleKey(item),
       lang: setFlag(item),
-    poster_path: 'https://image.tmdb.org/t/p/w92/' + item.poster_path
+      poster_path: setPoster(item),
       // vote: item.vote_average,
     };
     addStars(item, context);
 
     // {handlebars} compile template with all the data
     var html = template(context);
-    $(".movies").append(html);
+
+    if (type == "movies") {
+      $(".movies").append(html);
+    } else {
+      $(".series").append(html);
+    }
+
+
 
   });
 }
@@ -103,6 +123,7 @@ function printResult(results, query) {
   // remove all
 function resetContent() {
   $(".movies").html('');
+  $(".series").html('');
 }
 
 // Ordina in base alla popolarità
@@ -138,4 +159,14 @@ function setFlag(item) {
   } else {
     $('.lang').html(itemLanguage);
   }
+}
+
+function chooseTitleKey(item) {
+  let title;
+  if (!item.title) {
+    title = item.name;
+  } else {
+    title = item.title;
+  }
+  return title;
 }
