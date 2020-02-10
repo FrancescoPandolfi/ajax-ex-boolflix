@@ -1,6 +1,6 @@
 $(document).ready(function () {
 
-  $(".search").focus();
+
 
   $('.search').on('keyup', function() {
     var query = $('.search').val();
@@ -10,9 +10,12 @@ $(document).ready(function () {
       getSeries(query)
     } else {
       resetContent();
+      getTrending();
     }
 
   });
+
+  getTrending();
 
   $(document).on( "mouseenter", ".element", function() {
     $(this).find('img').addClass('active');
@@ -24,15 +27,49 @@ $(document).ready(function () {
   });
   $(document).on( "click", ".info", function() {
     $(this).parent().next('.details').addClass('show');
+    $('.cover-bg').addClass('show');
   });
-  $(document).on( "click", ".details", function() {
-    $(this).removeClass('show');
+  $(document).on( "click", ".close, .cover-bg", function() {
+    $('.details').removeClass('show');
+    $('.cover-bg').removeClass('show');
+  });
+
+
+  $(document).on( "click", ".search-icon", function() {
+    $('.search').toggleClass('active');
+    $(".search").focus();
   });
 
 }); // end document ready
 
 
 // FUNCTIONS ------------------------------------------
+
+
+function getTrending() {
+  $.ajax({
+  url: "https://api.themoviedb.org/3/trending/all/day",
+  method: "GET",
+  data: {
+    api_key: 'b7db4886e799d733a0c24ab663a6b884',
+    language: 'en-EN'
+  },
+  success: function (data, stato) {
+    var movies = data.results;
+    console.log(movies);
+    roundTheVote(movies);
+    printResult("movies", movies);
+
+    $('.first').html('Trending today');
+    $('.second').html('');
+  },
+  error: function (richiesta, stato, errore) {
+    $('.movies').append("<li>È avvenuto un errore. " + errore + "</li>");
+  }
+  });
+}
+
+
 
 function getMovies(query) {
   $.ajax({
@@ -48,6 +85,9 @@ function getMovies(query) {
     console.log(movies);
     roundTheVote(movies);
     printResult("movies", movies, query);
+
+    $('.first').html('Movies');
+    $('.second').html('TV shows');
   },
   error: function (richiesta, stato, errore) {
     $('.movies').append("<li>È avvenuto un errore. " + errore + "</li>");
@@ -84,7 +124,6 @@ function printResult(type, results, query) {
   } else if (type == 'series') {
     $(".series").html('');
   }
-  // $('.details').html('');
 
   // select source and select template for handlebars
   var source = $("#movies-template").html();
@@ -117,7 +156,8 @@ function printResult(type, results, query) {
       lang: setFlag(item),
       poster_path: setPoster(item),
       star: addStars(item),
-      desc: item.overview
+      desc: item.overview,
+      backdrop: 'https://image.tmdb.org/t/p/w1280/' + item.backdrop_path
     };
     console.log(item.overview);
 

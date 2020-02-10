@@ -7,19 +7,8 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-
-input {
-  width: 300px;
-  height: 30px;
-  margin-bottom: 50px;
-}
-
-
-
-
-
 h2 {
-  font-size: 26px;
+  font-size: 20px;
 }
 
 
@@ -36,7 +25,7 @@ body {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 2;
+  z-index: 13;
   display: flex;
   align-items: center;
   padding: 0 50px;
@@ -44,12 +33,47 @@ body {
 }
   .menu-bar .logo {
     height: 25px;
+    margin-right: 40px;
+  }
+  .menu-bar .menu {
     margin-right: auto;
+    display: flex;
+    font-size:
+  }
+  .menu-bar .menu li {
+    margin-right: 20px;
+  }
+  .search-icon {
+    cursor: pointer;
+  }
+  input {
+    width: 0;
+    height: 30px;
+    outline: none;
+    background: #141413;
+    margin-left: 10px;
+    color: #bebebe;
+    font-size: 13px;
+    border: 1px solid #8f8f8f;
+    opacity: 0;
+    transition: all .5s ease-in-out;
+  }
+  input.active {
+    width: 250px;
+    padding-left: 10px;
+    opacity: 1;
   }
 
 /* MAIN */
 main {
   padding: 100px 50px 50px;
+}
+h2.first {
+  margin-bottom: 10px;
+}
+h2.second {
+  margin-bottom: 10px;
+  margin-top: 30px;
 }
 .movies {
     display: flex;
@@ -124,50 +148,121 @@ main {
       background: linear-gradient(rgba(0, 0, 0, 0.0), rgba(0, 0, 0, 1) 100%);
     }
     .tit {
-      font-size: 26px;
+      font-size: 22px;
       line-height: 24px;
       position: absolute;
       bottom: 0;
       left: 0;
       right: 0;
       padding: 0 25px 30px;
+      font-weight: bold;
     }
     .flags {
       width: 20px;
       vertical-align: middle;
     }
     .stars {
-      font-size: 12px;
+      font-size: 13px;
+      font-weight: normal;
     }
     .lang {
-      font-size: 12px;
+      font-size: 13px;
+      font-weight: normal;
+      margin-top: 15px;
     }
+
+.cover-bg {
+  position: fixed;
+  z-index: -1;
+  display: none;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #141413;
+  opacity: 0;
+  display: none;
+}
+.cover-bg.show {
+  z-index: 14;
+  opacity: 0.5;
+  display: block;
+}
 
 .details {
   z-index: -1;
-  width: 70%;
-  height: 70vh;
+  width: 100%;
+  height: 0vh;
   position: fixed;
-  padding: 100px 35% 50px;
-  top: 15%;
-  left: 15vh;
+  padding: 100px;
+  left: 0;
+  bottom: 0;
   opacity: 0;
   transition: all .2s ease-in-out;
   background-color: #141413
 }
 @media screen and (max-width:992px) {
   .details {
-
     padding: 100px 15% 50px;
   }
 }
+  .details.show {
+    z-index: 15;
+    height: 60vh;
+    bottom: 0;
+    left: 0;
+    opacity: 0.98;
+    transition: all .2s ease-in-out;
+  }
+  .detail-info {
+    position: absolute;
+    top: 100px;
+    left: 100px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    z-index: 18;
+    max-width: 50%;
+  }
+    p.details-title {
+      font-size: 40px;
+    }
+    p.details-desc {
+      font-size: 14px;
+      font-weight: normal;
+      margin-bottom: 15px;
+    }
+  .close {
+    font-size: 25px;
+    position: absolute;
+    right: 50px;
+    top: 50px;
+    cursor: pointer;
+    z-index: 18;
+  }
+  .backdrop-img {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    max-height: 100%;
+    z-index: 16;
+    text-align: right;
+  }
+  .backdrop-img img {
+    max-height: 100%;
+  }
 
-.details.show {
-  z-index: 10;
-  width: 100%;
-  height: 100vh;
+  .backdrop {
+  position: absolute;
+  background-image: linear-gradient(to left, rgba(255, 255, 255, 0) 0, #141413 100%);
+  background-image: -moz-linear-gradient(to left, rgba(255, 255, 255, 0) 0, #141413 100%);
   top: 0;
   left: 0;
-  opacity: 0.95;
-  transition: all .2s ease-in-out;
+  right: 0;
+  bottom: 0;
+  height: 1000px;
+  width: 1000px;
+  z-index: 100;
+  content: 'sdasd';
+  z-index: 17;
 }

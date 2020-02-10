@@ -14,7 +14,8 @@
   <!-- Font awesome -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/js/all.min.js" charset="utf-8"></script>
   <!-- google font -->
-  <link href="https://fonts.googleapis.com/css?family=Heebo:700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Heebo:400,700&display=swap" rel="stylesheet">
+  <link rel='shortcut icon' type='image/x-icon' href='favicon.ico' />
   <title>Boolflix</title>
 </head>
 <body>
@@ -22,21 +23,26 @@
   <header>
   <div class="menu-bar">
     <img class="logo" src="img/netflix.png" alt="">
-    <img src="img/search-big.svg" alt="">
+    <ul class="menu">
+      <li>Movies</li>
+      <li>Tv shows</li>
+    </ul>
+    <img class="search-icon" src="img/search-big.svg" alt="">
     <input class="search" type="text" name="" value="" placeholder="Search a title">
   </div>
 </header>
 
 <main>
-  <h2>Movies</h2>
+  <h2 class="first">Trending today</h2>
   <div class="movies">
 
   </div>
-  <h2>TV shows</h2>
+  <h2 class="second"></h2>
   <div class="series">
 
   </div>
 
+<div class="cover-bg"></div>
 
 
 
@@ -53,15 +59,30 @@
       <div class="info">
         <div class="tit">{{title}}
           <div class="stars">Vote: {{{star}}}</div>
-        <div class="lang">Language: {{{lang}}}</div>
       </div>
 
       </div>
       <div class="content">
-        <img src="{{poster_path}}" alt="">
+        <img src="{{poster_path}}" alt="{{title}}">
       </div>
     </div>
-    <div class="details"><p>{{desc}}</p></div>
+    <div class="details">
+      <div class="detail-info">
+        <p class="details-title">{{title}}</p>
+        <p class="details-desc">{{desc}}</p>
+        <p class="star">Vote: {{{star}}}</p>
+        <p class="lang">Language: {{{lang}}}</p>
+
+      </div>
+      <div class="backdrop-img">
+        <img src="{{backdrop}}" alt="{{title}}">
+        <div class="backdrop">
+        </div>
+      </div>
+
+
+      <div class="close"><i class="fas fa-times"></i></div>
+    </div>
 
   </script>
 
@@ -70,15 +91,6 @@
 
 
 
-  <!-- <li>
-    <span> </span>
-    {{title}} -
-
-    <span class="lang">
-      {{{lang}}}
-    </span> - {{vote}}
-    {{{star}}}
-  </li> -->
 
   <script src="script.js" charset="utf-8"></script>
 </body>
