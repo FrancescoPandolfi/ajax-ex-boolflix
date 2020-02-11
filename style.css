@@ -48,6 +48,7 @@ body {
   } */
   .search-icon {
     cursor: pointer;
+    z-index: 100;
   }
   input {
     width: 0;
@@ -55,6 +56,7 @@ body {
     outline: none;
     background: #141413;
     margin-left: 10px;
+    padding-left: 0;
     color: #bebebe;
     font-size: 13px;
     border: 1px solid #8f8f8f;
@@ -62,9 +64,18 @@ body {
     transition: all .5s ease-in-out;
   }
   input.active {
-    width: 250px;
+    width: 220px;
     padding-left: 10px;
     opacity: 1;
+  }
+  .arrow {
+    opacity: 0;
+    transform: translateX(-20px);
+    transition: opacity .5s ease-in-out;
+    cursor: pointer;
+  }
+  .arrow.active {
+  opacity: 1;
   }
 
 /* MAIN */

@@ -7,7 +7,7 @@ $(document).ready(function () {
 
 
   // Azioni sul search, ogni lettera inserita fa una ricerca
-  $('.search').on('keypress', function() {
+  $('.search').on('keypress', function(event) {
 
     var query = $('.search').val();
 
@@ -22,29 +22,34 @@ $(document).ready(function () {
         $('.second').html('TV shows');
 
       } else {
-
-        resetContent();
-
-        getTrending('trending/tv/week', 'tv', '.series')
-        getTrending('trending/movies/week', 'movie', '.movies')
-
-        $('.first').html('Trending Movies this week');
-        $('.second').html('Trending TV shows this week');
+        searchTrending()
       }
     }
+  });
+
+  $('.arrow').click(function () {
+    var query = $('.search').val();
+      if (query != "") {
+
+        getData('search/movie', query, 'movie', '.movies')
+        getData('search/tv', query, 'tv', '.series')
+
+        $('.first').html('Movies');
+        $('.second').html('TV shows');
+
+      } else {
+        searchTrending()
+      }
   });
 
 // Quando il campo si svuota vengono mostrati i trending now
   $('.search').on('keyup', function() {
       var query = $('.search').val();
       if (query == ""){
-        resetContent();
-        getTrending('trending/tv/week', 'tv', '.series')
-        getTrending('trending/movies/week', 'movie', '.movies')
-        $('.first').html('Trending Movies this week');
-        $('.second').html('Trending TV shows this week');
+        searchTrending()
       }
   });
+
 
 
   // Azioni nel main, sulle immagini
@@ -69,7 +74,9 @@ $(document).ready(function () {
   // Azione sulla search
   $(document).on( "click", ".search-icon", function() {
     $('.search').toggleClass('active');
+    $('.arrow').toggleClass('active');
     $(".search").focus();
+
   });
 
 }); // end document ready
@@ -77,6 +84,15 @@ $(document).ready(function () {
 
 
 // FUNCTIONS ------------------------------------------
+
+
+function searchTrending() {
+  resetContent();
+  getTrending('trending/tv/week', 'tv', '.series')
+  getTrending('trending/movies/week', 'movie', '.movies')
+  $('.first').html('Trending Movies this week');
+  $('.second').html('Trending TV shows this week');
+}
 
 
 // Funzione con chiamata per film o tv show di tendenza
