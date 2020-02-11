@@ -2,8 +2,8 @@ $(document).ready(function () {
 
 
   // Chiamata che prende i film di tendenza appena si apre il sito
-  getTrending('trending/tv/week', 'tv', '.series')
-  getTrending('trending/movies/week', 'movie', '.movies')
+  getTrending('trending/tv/day', 'tv', '.series')
+  getTrending('trending/movies/day', 'movie', '.movies')
 
 
   // Azioni sul search, ogni lettera inserita fa una ricerca
@@ -88,8 +88,8 @@ $(document).ready(function () {
 
 function searchTrending() {
   resetContent();
-  getTrending('trending/tv/week', 'tv', '.series')
-  getTrending('trending/movies/week', 'movie', '.movies')
+  getTrending('trending/tv/day', 'tv', '.series')
+  getTrending('trending/movies/day', 'movie', '.movies')
   $('.first').html('Trending Movies this week');
   $('.second').html('Trending TV shows this week');
 }
@@ -139,13 +139,15 @@ function getCast(id, questo, type) {
    success: function (data, stato) {
      $(questo).next('.details').find('.starring').html('');
      var cast = data.cast;
-
+     console.log(data);
      var starring = '<span class="bold">Starring: </span>';
      for (var i = 0; i < 4; i++) {
        if (i == 3) {
          starring = starring + cast[i].name + '.';
+         console.log(cast[i].name);
        } else {
          starring = starring + cast[i].name + ', ';
+         console.log(cast[i].name);
        }
      }
      $(questo).next('.details').find('p.starring').append(starring);
