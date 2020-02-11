@@ -180,16 +180,6 @@ function printResult(type, results, query) {
   // generate content for handlebars
   results.forEach(function(item) {
 
-    function setPoster(item) {
-      let imgUrl = '';
-      if (item.poster_path) {
-        imgUrl = 'https://image.tmdb.org/t/p/w342/' + item.poster_path;
-      } else {
-        imgUrl = 'img/noimg.jpg';
-      }
-      return imgUrl
-    }
-
     var context = {
       title: chooseTitleKey(item),
       lang: setFlag(item),
@@ -211,6 +201,16 @@ function printResult(type, results, query) {
       $(".series").append(html);
     }
   });
+}
+
+function setPoster(item) {
+  let imgUrl = '';
+  if (item.poster_path) {
+    imgUrl = 'https://image.tmdb.org/t/p/w342/' + item.poster_path;
+  } else {
+    imgUrl = 'img/noimg.jpg';
+  }
+  return imgUrl
 }
 
 // Arrotonda per eccesso e trasforma la votazione da 1-10 a 1-5
