@@ -20,6 +20,8 @@ $(document).ready(function () {
   $(document).on( "mouseenter", ".element", function() {
     $(this).find('img').addClass('active');
     $(this).find('.info').addClass('active');
+    getCast($(this).attr('data-id'), $(this), $(this).attr('data-type'));
+
   });
   $(document).on( "mouseleave", ".element", function() {
     $(this).find('img').removeClass('active');
@@ -45,22 +47,43 @@ $(document).ready(function () {
 
 // FUNCTIONS ------------------------------------------
 
+// Call for Cast by Id
+ function getCast(id, questo, type) {
+   $.ajax({
+   url: 'https://api.themoviedb.org/3/' + type +'/' + id + '/credits',
+   data: {api_key: 'b7db4886e799d733a0c24ab663a6b884'},
+   success: function (data, stato) {
+     $(questo).next('.details').find('.starring').html('');
+     var cast = data.cast;
+
+     var starring = 'Starring: ';
+     for (var i = 0; i < 4; i++) {
+       starring = starring + cast[i].name + ', ';
+     }
+
+     $(questo).next('.details').find('.starring').html(starring);
+
+     console.log(starring);
+   },
+   error: function (richiesta, stato, errore) {
+   }
+   });
+ }
+
+
 
 function getTrending() {
   $.ajax({
-  url: "https://api.themoviedb.org/3/trending/all/day",
-  method: "GET",
+  url: "https://api.themoviedb.org/3/trending/all/week",
   data: {
     api_key: 'b7db4886e799d733a0c24ab663a6b884',
-    language: 'en-EN'
   },
   success: function (data, stato) {
-    var movies = data.results;
-    console.log(movies);
-    roundTheVote(movies);
-    printResult("movies", movies);
+    var movie = data.results;
+    roundTheVote(movie);
+    printResult("movie", movie);
 
-    $('.first').html('Trending today');
+    $('.first').html('Trending this week');
     $('.second').html('');
   },
   error: function (richiesta, stato, errore) {
@@ -81,10 +104,9 @@ function getMovies(query) {
     language: 'en-EN'
   },
   success: function (data, stato) {
-    var movies = data.results;
-    console.log(movies);
-    roundTheVote(movies);
-    printResult("movies", movies, query);
+    var movie = data.results;
+    roundTheVote(movie);
+    printResult("movie", movie, query);
 
     $('.first').html('Movies');
     $('.second').html('TV shows');
@@ -104,10 +126,9 @@ function getSeries(query) {
     query: query
   },
   success: function (data, stato) {
-    var series = data.results;
-     console.log(series);
-    roundTheVote(series);
-    printResult("series", series, query);
+    var tv = data.results;
+    roundTheVote(tv);
+    printResult("tv", tv, query);
   },
   error: function (richiesta, stato, errore) {
     $('.series').append("<li>È avvenuto un errore. " + errore + "</li>");
@@ -119,9 +140,9 @@ function getSeries(query) {
 
 function printResult(type, results, query) {
 
-  if (type == 'movies') {
+  if (type == 'movie') {
     $(".movies").html('');
-  } else if (type == 'series') {
+  } else if (type == 'tv') {
     $(".series").html('');
   }
 
@@ -130,10 +151,10 @@ function printResult(type, results, query) {
   var template = Handlebars.compile(source);
 
   // Se la ricerca non va a buon fine viene avvisato l'utente
-  if (type == "movies" && results.length == 0) {
+  if (type == "movie" && results.length == 0) {
     $('.movies').append(`<li>Your search for ${query} did not have any matches.</li>`);
   }
-  if (type == "series" && results.length == 0) {
+  if (type == "tv" && results.length == 0) {
     $('.series').append(`<li>Your search for ${query} did not have any matches.</li>`);
   }
 
@@ -157,15 +178,16 @@ function printResult(type, results, query) {
       poster_path: setPoster(item),
       star: addStars(item),
       desc: item.overview,
+      type: type,
+      id: item.id,
       backdrop: 'https://image.tmdb.org/t/p/w1280/' + item.backdrop_path
     };
-    console.log(item.overview);
 
 
     // {handlebars} compile template with all the data
     var html = template(context);
 
-    if (type == "movies") {
+    if (type == "movie") {
       $(".movies").append(html);
     } else {
       $(".series").append(html);
@@ -222,3 +244,10 @@ function chooseTitleKey(item) {
   }
   return title;
 }
+
+// $(document).mousemove(function(e) {
+//     $('.search').offset({
+//         left: e.pageX,
+//         top: e.pageY + 20
+//     });
+// });

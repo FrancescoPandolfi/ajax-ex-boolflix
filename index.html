@@ -22,18 +22,18 @@
 
   <header>
   <div class="menu-bar">
-    <img class="logo" src="img/netflix.png" alt="">
-    <ul class="menu">
+    <img class="logo" src="img/boolflix.png" alt="">
+    <!-- <ul class="menu">
       <li>Movies</li>
       <li>Tv shows</li>
-    </ul>
+    </ul> -->
     <img class="search-icon" src="img/search-big.svg" alt="">
     <input class="search" type="text" name="" value="" placeholder="Search a title">
   </div>
 </header>
 
 <main>
-  <h2 class="first">Trending today</h2>
+  <h2 class="first">Trending this week</h2>
   <div class="movies">
 
   </div>
@@ -55,7 +55,7 @@
 
   <script id="movies-template" type="text/x-handlebars-template">
 
-    <div class="element">
+    <div data-id="{{id}}" data-type="{{type}}" class="element">
       <div class="info">
         <div class="tit">{{title}}
           <div class="stars">Vote: {{{star}}}</div>
@@ -70,14 +70,14 @@
       <div class="detail-info">
         <p class="details-title">{{title}}</p>
         <p class="details-desc">{{desc}}</p>
+        <p class="starring"></p>
         <p class="star">Vote: {{{star}}}</p>
         <p class="lang">Language: {{{lang}}}</p>
 
       </div>
       <div class="backdrop-img">
         <img src="{{backdrop}}" alt="{{title}}">
-        <div class="backdrop">
-        </div>
+        <div class="backdrop"></div>
       </div>
 
 
