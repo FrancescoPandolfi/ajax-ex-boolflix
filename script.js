@@ -31,10 +31,6 @@ $(document).ready(function () {
   });
 
 
-
-
-
-
   // Azioni nel main, sulle immagini
   $(document).on( "mouseenter", ".element", function() {
     $(this).find('img').addClass('active');
@@ -63,10 +59,48 @@ $(document).ready(function () {
 }); // end document ready
 
 
+
 // FUNCTIONS ------------------------------------------
 
+
+// Funzione con chiamata per film o tv show di tendenza
+function getTrending(urlFinal, type, container) {
+$.ajax({
+url: "https://api.themoviedb.org/3/" + urlFinal,
+data: {
+  api_key: 'b7db4886e799d733a0c24ab663a6b884',
+},
+success: function (data, stato) {
+  var results = data.results;
+  printResult(type, results);
+},
+error: function (richiesta, stato, errore) {
+  $(container).append("<li>È avvenuto un errore. " + errore + "</li>");
+}
+});
+}
+
+// Funzione che restituisce array di film o Tv show presi dal database
+function getData(urlFinal, query, type, container) {
+$.ajax({
+url: "https://api.themoviedb.org/3/" + urlFinal,
+data: {
+  api_key: 'b7db4886e799d733a0c24ab663a6b884',
+  query: query,
+},
+success: function (data, stato) {
+  var results = data.results;
+  roundTheVote(results);
+  printResult(type, results, query);
+},
+error: function (richiesta, stato, errore) {
+  $(container).append("<li>È avvenuto un errore. " + errore + "</li>");
+}
+});
+}
+
 // chiamata per il Cast usando l'ID
- function getCast(id, questo, type) {
+function getCast(id, questo, type) {
    $.ajax({
    url: 'https://api.themoviedb.org/3/' + type +'/' + id + '/credits',
    data: {api_key: 'b7db4886e799d733a0c24ab663a6b884'},
@@ -88,42 +122,6 @@ $(document).ready(function () {
    }
    });
  }
-
-// Funzione con chiamata per film o tv show di tendenza
-function getTrending(urlFinal, type, container) {
-  $.ajax({
-  url: "https://api.themoviedb.org/3/" + urlFinal,
-  data: {
-    api_key: 'b7db4886e799d733a0c24ab663a6b884',
-  },
-  success: function (data, stato) {
-    var results = data.results;
-    printResult(type, results);
-  },
-  error: function (richiesta, stato, errore) {
-    $(container).append("<li>È avvenuto un errore. " + errore + "</li>");
-  }
-  });
-}
-
-// Funzione che restituisce array di film o Tv show presi dal database
-function getData(urlFinal, query, type, container) {
-  $.ajax({
-  url: "https://api.themoviedb.org/3/" + urlFinal,
-  data: {
-    api_key: 'b7db4886e799d733a0c24ab663a6b884',
-    query: query,
-  },
-  success: function (data, stato) {
-    var results = data.results;
-    roundTheVote(results);
-    printResult(type, results, query);
-  },
-  error: function (richiesta, stato, errore) {
-    $(container).append("<li>È avvenuto un errore. " + errore + "</li>");
-  }
-  });
-}
 
 // Compila handlebar e stampa i risultati
 function printResult(type, results, query) {
@@ -183,13 +181,6 @@ function printResult(type, results, query) {
   });
 }
 
-  // remove all
-function resetContent() {
-  $(".movies").html('');
-  $(".series").html('');
-}
-
-
 // Arrotonda per eccesso e trasforma la votazione da 1-10 a 1-5
 function roundTheVote(results) {
   results.forEach(function(item) {
@@ -232,4 +223,10 @@ function chooseTitleKey(item) {
     title = item.original_title;
   }
   return title;
+}
+
+// remove all
+function resetContent() {
+  $(".movies").html('');
+  $(".series").html('');
 }
