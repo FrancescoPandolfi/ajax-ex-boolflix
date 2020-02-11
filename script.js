@@ -7,27 +7,43 @@ $(document).ready(function () {
 
 
   // Azioni sul search, ogni lettera inserita fa una ricerca
-  $('.search').on('keyup', function() {
+  $('.search').on('keypress', function() {
+
     var query = $('.search').val();
 
-    if (query != "") {
+    if(event.which == 13) {
 
-      getData('search/movie', query, 'movie', '.movies')
-      getData('search/tv', query, 'tv', '.series')
+      if (query != "") {
 
-      $('.first').html('Movies');
-      $('.second').html('TV shows');
+        getData('search/movie', query, 'movie', '.movies')
+        getData('search/tv', query, 'tv', '.series')
 
-    } else {
+        $('.first').html('Movies');
+        $('.second').html('TV shows');
 
-      resetContent();
+      } else {
 
-      getTrending('trending/tv/week', 'tv', '.series')
-      getTrending('trending/movies/week', 'movie', '.movies')
+        resetContent();
 
-      $('.first').html('Trending Movies this week');
-      $('.second').html('Trending TV shows this week');
+        getTrending('trending/tv/week', 'tv', '.series')
+        getTrending('trending/movies/week', 'movie', '.movies')
+
+        $('.first').html('Trending Movies this week');
+        $('.second').html('Trending TV shows this week');
+      }
     }
+  });
+
+// Quando il campo si svuota vengono mostrati i trending now
+  $('.search').on('keyup', function() {
+      var query = $('.search').val();
+      if (query == ""){
+        resetContent();
+        getTrending('trending/tv/week', 'tv', '.series')
+        getTrending('trending/movies/week', 'movie', '.movies')
+        $('.first').html('Trending Movies this week');
+        $('.second').html('Trending TV shows this week');
+      }
   });
 
 

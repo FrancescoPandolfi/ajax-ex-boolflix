@@ -270,7 +270,6 @@ h2.second {
   bottom: 0;
   height: 1000px;
   width: 1000px;
-  z-index: 100;
   content: 'sdasd';
   z-index: 17;
 }
@@ -278,6 +277,9 @@ h2.second {
 @media screen and (max-width:700px) {
   .backdrop-img {
     display: none;
+  }
+  p.details-title {
+    font-size: 30px;
   }
   .detail-info {
     top: 50px;

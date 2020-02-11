@@ -7,7 +7,7 @@ Boolflix è una replica di Netflix realizzata in HTML, CSS e JS. Utilizza l'API 
 ### Caratteristiche
 - Nella home sono presenti i 20 film e le 20 serie televisive di tendenza nell'ultima settimana.
 
-- Barra di ricerca che mostra 20 film e 20 serie tv che contengono nel nome il parametro immesso. (La ricerca si avvia ogni volta che l'utente inserisce un qualsiasi caratter [Onkeyup])
+- Barra di ricerca che mostra 20 film e 20 serie tv che contengono nel nome il parametro immesso. (La ricerca si avvia ogni volta che l'utente preme invio)
 
 - On hover sugli elementi sono mostrati il titolo e la votazione attraverso una piccola animazione dell'immagine, con l'aggiunta di un linear gradient per dar risalto al titolo.
 

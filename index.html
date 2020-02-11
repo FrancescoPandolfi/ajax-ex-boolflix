@@ -21,38 +21,27 @@
 <body>
 
   <header>
-  <div class="menu-bar">
-    <img class="logo" src="img/boolflix.png" alt="">
-    <!-- <ul class="menu">
-      <li>Movies</li>
-      <li>Tv shows</li>
-    </ul> -->
-    <img class="search-icon" src="img/search-big.svg" alt="">
-    <input class="search" type="text" name="" value="" placeholder="Search a title">
-  </div>
-</header>
+    <div class="menu-bar">
+      <img class="logo" src="img/boolflix.png" alt="">
+      <!-- <ul class="menu">
+        <li>Movies</li>
+        <li>Tv shows</li>
+      </ul> -->
+      <img class="search-icon" src="img/search-big.svg" alt="">
+      <input class="search" type="text" name="" value="" placeholder="Search a title">
+    </div>
+  </header>
 
-<main>
-  <h2 class="first">Trending Movies this week</h2>
-  <div class="movies">
-
-  </div>
-  <h2 class="second">Trending TV shows this week</h2>
-  <div class="series">
-
-  </div>
-
-<div class="cover-bg"></div>
+  <main>
+    <h2 class="first">Trending Movies this week</h2>
+    <div class="movies"></div>
+    <h2 class="second">Trending TV shows this week</h2>
+    <div class="series"></div>
+    <div class="cover-bg"></div>
+  </main>
 
 
-
-</main>
-
-
-
-
-
-
+  <!-- Handlebars template -->
   <script id="movies-template" type="text/x-handlebars-template">
 
     <div data-id="{{id}}" data-type="{{type}}" class="element">
@@ -79,18 +68,9 @@
         <img src="{{backdrop}}" alt="{{title}}">
         <div class="backdrop"></div>
       </div>
-
-
       <div class="close"><i class="fas fa-times"></i></div>
     </div>
-
-  </script>
-
-
-
-
-
-
+  </script> <!-- end Handlebars template -->
 
   <script src="script.js" charset="utf-8"></script>
 </body>
