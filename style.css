@@ -10,7 +10,9 @@
 h2 {
   font-size: 20px;
 }
-
+.bold {
+  font-weight: bold;
+}
 
 body {
     background-color: #141413;
@@ -229,6 +231,7 @@ h2.second {
     }
     p.starring {
       margin-bottom: 15px;
+      font-weight: normal;
     }
     p.details-desc {
       font-size: 14px;

@@ -1,27 +1,45 @@
 $(document).ready(function () {
 
 
+  // Chiamata che prende i film di tendenza appena si apre il sito
+  getTrending('trending/tv/week', 'tv', '.series')
+  getTrending('trending/movies/week', 'movie', '.movies')
 
+
+  // Azioni sul search, ogni lettera inserita fa una ricerca
   $('.search').on('keyup', function() {
     var query = $('.search').val();
 
     if (query != "") {
-      getMovies(query);
-      getSeries(query)
-    } else {
-      resetContent();
-      getTrending();
-    }
 
+      getData('search/movie', query, 'movie', '.movies')
+      getData('search/tv', query, 'tv', '.series')
+
+      $('.first').html('Movies');
+      $('.second').html('TV shows');
+
+    } else {
+
+      resetContent();
+
+      getTrending('trending/tv/week', 'tv', '.series')
+      getTrending('trending/movies/week', 'movie', '.movies')
+
+      $('.first').html('Trending Movies this week');
+      $('.second').html('Trending TV shows this week');
+    }
   });
 
-  getTrending();
 
+
+
+
+
+  // Azioni nel main, sulle immagini
   $(document).on( "mouseenter", ".element", function() {
     $(this).find('img').addClass('active');
     $(this).find('.info').addClass('active');
     getCast($(this).attr('data-id'), $(this), $(this).attr('data-type'));
-
   });
   $(document).on( "mouseleave", ".element", function() {
     $(this).find('img').removeClass('active');
@@ -36,7 +54,7 @@ $(document).ready(function () {
     $('.cover-bg').removeClass('show');
   });
 
-
+  // Azione sulla search
   $(document).on( "click", ".search-icon", function() {
     $('.search').toggleClass('active');
     $(".search").focus();
@@ -47,7 +65,7 @@ $(document).ready(function () {
 
 // FUNCTIONS ------------------------------------------
 
-// Call for Cast by Id
+// chiamata per il Cast usando l'ID
  function getCast(id, questo, type) {
    $.ajax({
    url: 'https://api.themoviedb.org/3/' + type +'/' + id + '/credits',
@@ -56,88 +74,58 @@ $(document).ready(function () {
      $(questo).next('.details').find('.starring').html('');
      var cast = data.cast;
 
-     var starring = 'Starring: ';
+     var starring = '<span class="bold">Starring: </span>';
      for (var i = 0; i < 4; i++) {
-       starring = starring + cast[i].name + ', ';
+       if (i == 3) {
+         starring = starring + cast[i].name + '.';
+       } else {
+         starring = starring + cast[i].name + ', ';
+       }
      }
-
-     $(questo).next('.details').find('.starring').html(starring);
-
-     console.log(starring);
+     $(questo).next('.details').find('p.starring').append(starring);
    },
    error: function (richiesta, stato, errore) {
    }
    });
  }
 
-
-
-function getTrending() {
+// Funzione con chiamata per film o tv show di tendenza
+function getTrending(urlFinal, type, container) {
   $.ajax({
-  url: "https://api.themoviedb.org/3/trending/all/week",
+  url: "https://api.themoviedb.org/3/" + urlFinal,
   data: {
     api_key: 'b7db4886e799d733a0c24ab663a6b884',
   },
   success: function (data, stato) {
-    var movie = data.results;
-    roundTheVote(movie);
-    printResult("movie", movie);
-
-    $('.first').html('Trending this week');
-    $('.second').html('');
+    var results = data.results;
+    printResult(type, results);
   },
   error: function (richiesta, stato, errore) {
-    $('.movies').append("<li>È avvenuto un errore. " + errore + "</li>");
+    $(container).append("<li>È avvenuto un errore. " + errore + "</li>");
   }
   });
 }
 
-
-
-function getMovies(query) {
+// Funzione che restituisce array di film o Tv show presi dal database
+function getData(urlFinal, query, type, container) {
   $.ajax({
-  url: "https://api.themoviedb.org/3/search/movie",
-  method: "GET",
+  url: "https://api.themoviedb.org/3/" + urlFinal,
   data: {
     api_key: 'b7db4886e799d733a0c24ab663a6b884',
     query: query,
-    language: 'en-EN'
   },
   success: function (data, stato) {
-    var movie = data.results;
-    roundTheVote(movie);
-    printResult("movie", movie, query);
-
-    $('.first').html('Movies');
-    $('.second').html('TV shows');
+    var results = data.results;
+    roundTheVote(results);
+    printResult(type, results, query);
   },
   error: function (richiesta, stato, errore) {
-    $('.movies').append("<li>È avvenuto un errore. " + errore + "</li>");
+    $(container).append("<li>È avvenuto un errore. " + errore + "</li>");
   }
   });
 }
 
-function getSeries(query) {
-  $.ajax({
-  url: "https://api.themoviedb.org/3/search/tv",
-  method: "GET",
-  data: {
-    api_key: 'b7db4886e799d733a0c24ab663a6b884',
-    query: query
-  },
-  success: function (data, stato) {
-    var tv = data.results;
-    roundTheVote(tv);
-    printResult("tv", tv, query);
-  },
-  error: function (richiesta, stato, errore) {
-    $('.series').append("<li>È avvenuto un errore. " + errore + "</li>");
-  }
-  });
-}
-
-
-
+// Compila handlebar e stampa i risultati
 function printResult(type, results, query) {
 
   if (type == 'movie') {
@@ -165,7 +153,7 @@ function printResult(type, results, query) {
     function setPoster(item) {
       let imgUrl = '';
       if (item.poster_path) {
-        imgUrl = 'https://image.tmdb.org/t/p/w500/' + item.poster_path;
+        imgUrl = 'https://image.tmdb.org/t/p/w342/' + item.poster_path;
       } else {
         imgUrl = 'img/noimg.jpg';
       }
@@ -195,7 +183,6 @@ function printResult(type, results, query) {
   });
 }
 
-
   // remove all
 function resetContent() {
   $(".movies").html('');
@@ -223,6 +210,7 @@ function addStars(item) {
   return stars;
 }
 
+// Inserisce la bandiera
 function setFlag(item) {
   var availableFlags = ['en', 'de', 'es', 'fr', 'it', 'pt'];
   var itemLanguage = item.original_language;
@@ -235,6 +223,7 @@ function setFlag(item) {
   return lang;
 }
 
+// Sceglie la chiave corretta per il titolo
 function chooseTitleKey(item) {
   let title;
   if (!item.title) {
@@ -244,10 +233,3 @@ function chooseTitleKey(item) {
   }
   return title;
 }
-
-// $(document).mousemove(function(e) {
-//     $('.search').offset({
-//         left: e.pageX,
-//         top: e.pageY + 20
-//     });
-// });
