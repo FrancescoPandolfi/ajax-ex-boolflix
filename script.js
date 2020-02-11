@@ -139,15 +139,12 @@ function getCast(id, questo, type) {
    success: function (data, stato) {
      $(questo).next('.details').find('.starring').html('');
      var cast = data.cast;
-     console.log(data);
      var starring = '<span class="bold">Starring: </span>';
      for (var i = 0; i < 4; i++) {
        if (i == 3) {
          starring = starring + cast[i].name + '.';
-         console.log(cast[i].name);
        } else {
          starring = starring + cast[i].name + ', ';
-         console.log(cast[i].name);
        }
      }
      $(questo).next('.details').find('p.starring').append(starring);
