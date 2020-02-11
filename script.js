@@ -76,7 +76,6 @@ $(document).ready(function () {
     $('.search').toggleClass('active');
     $('.arrow').toggleClass('active');
     $(".search").focus();
-
   });
 
 }); // end document ready
@@ -93,7 +92,6 @@ function searchTrending() {
   $('.first').html('Trending Movies this week');
   $('.second').html('Trending TV shows this week');
 }
-
 
 // Funzione con chiamata per film o tv show di tendenza
 function getTrending(urlFinal, type, container) {
@@ -139,15 +137,20 @@ function getCast(id, questo, type) {
    success: function (data, stato) {
      $(questo).next('.details').find('.starring').html('');
      var cast = data.cast;
-     var starring = '<span class="bold">Starring: </span>';
-     for (var i = 0; i < 4; i++) {
-       if (i == 3) {
-         starring = starring + cast[i].name + '.';
-       } else {
-         starring = starring + cast[i].name + ', ';
+     if (cast.length >= 4) {
+
+       var starring = '<span class="bold">Starring: </span>';
+       for (var i = 0; i < 4; i++) {
+         if (i == 3) {
+           starring = starring + cast[i].name + '.';
+         } else {
+           starring = starring + cast[i].name + ', ';
+         }
        }
-     }
-     $(questo).next('.details').find('p.starring').append(starring);
+       $(questo).next('.details').find('p.starring').append(starring);
+
+      }
+
    },
    error: function (richiesta, stato, errore) {
    }
@@ -189,7 +192,9 @@ function printResult(type, results, query) {
       id: item.id,
       backdrop: 'https://image.tmdb.org/t/p/w1280/' + item.backdrop_path
     };
-
+    if (item.backdrop_path == null) {
+      context.backdrop = '';
+    }
 
     // {handlebars} compile template with all the data
     var html = template(context);
