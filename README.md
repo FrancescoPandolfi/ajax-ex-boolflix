@@ -13,6 +13,8 @@ Boolflix è una replica di Netflix per desktop realizzata in HTML, CSS e JS. Uti
 
 - Il click su ogni elemento fa partire un'animazione che apre una finestra dal basso. La finestra contiene uan serie di dati relativi all'elemento cliccato. Cliccando sulla X o sullo sfondo dietro la finestra è possibile chiudere la finestra stessa.
 
+- È presente una select con delle opzioni che consentono di filtrare i risultati per genere.
+
 ## Tecnologie usate
 HTML, CSS, JS, AJAX, Jquery, Handlebars, API https://www.themoviedb.org/documentation/api.
 

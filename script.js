@@ -1,7 +1,8 @@
 $(document).ready(function () {
 
+  var api = 'b7db4886e799d733a0c24ab663a6b884';
 
-  // Chiamata che prende i film di tendenza appena si apre il sito
+  // Chiamata che prende film e serie di tendenza appena si apre il sito
   getTrending('trending/tv/day', 'tv', '.series')
   getTrending('trending/movies/day', 'movie', '.movies')
 
@@ -12,6 +13,7 @@ $(document).ready(function () {
     var query = $('.search').val();
 
     if(event.which == 13) {
+      $('[name=genres]').val('Choose a genre');
       if (query != "") {
 
         getData('search/movie', query, 'movie', '.movies')
@@ -29,6 +31,7 @@ $(document).ready(function () {
 
   // Al click sulla freccia parte la ricerca
   $('.arrow').click(function () {
+    $('[name=genres]').val('Choose a genre');
     var query = $('.search').val();
       if (query != "") {
 
@@ -85,13 +88,35 @@ $(document).ready(function () {
   });
 
 
+  // Prende i generi e li inserisce nella select
+  getGenre(api);
+
+  // Azione che nasconde e mostra gli elementi in base al genere
+  $(document).on("change", "select", function() {
+    var selectedGenre = $(this).children("option:selected").val();
+
+    if (selectedGenre === 'All') {
+      $('.element').show();
+    } else {
+      $('.element').hide();
+    }
+
+    $('.element').each(function() {
+      var elementGenres = $(this).attr('data-genres');
+      if (elementGenres.indexOf(selectedGenre) !== -1) {
+        $(this).show();
+      }
+    });
+
+  });
+
 }); // end document ready
 
 
 
 // FUNCTIONS ------------------------------------------
 
-
+// Ricerca il trend di oggi
 function searchTrending() {
   resetContent();
   getTrending('trending/tv/day', 'tv', '.series')
@@ -100,40 +125,59 @@ function searchTrending() {
   $('.second').html('Trending TV show today');
 }
 
+// Chiama tutti i generi disponibili e li inserisce nella select
+function getGenre(api) {
+  $.ajax({
+    url: "https://api.themoviedb.org/3/genre/movie/list",
+    data: {api_key: api},
+    success: function (data, stato) {
+      var genres = data.genres;
+
+      genres.forEach(function(item) {
+        $('select').append('<option value=' + item.id +'>' + item.name + '</option>')
+      });
+
+    },
+    error: function (richiesta, stato, errore) {
+      $('main').append("<li>È avvenuto un errore. " + errore + "</li>");
+    }
+  });
+}
+
 // Funzione con chiamata per film o tv show di tendenza
 function getTrending(urlFinal, type, container) {
-$.ajax({
-url: "https://api.themoviedb.org/3/" + urlFinal,
-data: {
-  api_key: 'b7db4886e799d733a0c24ab663a6b884',
-},
-success: function (data, stato) {
-  var results = data.results;
-  printResult(type, results);
-},
-error: function (richiesta, stato, errore) {
-  $(container).append("<li>È avvenuto un errore. " + errore + "</li>");
-}
-});
+  $.ajax({
+    url: "https://api.themoviedb.org/3/" + urlFinal,
+    data: {
+      api_key: 'b7db4886e799d733a0c24ab663a6b884',
+    },
+    success: function (data, stato) {
+      var results = data.results;
+      printResult(type, results);
+    },
+    error: function (richiesta, stato, errore) {
+      $(container).append("<li>È avvenuto un errore. " + errore + "</li>");
+    }
+  });
 }
 
 // Funzione che restituisce array di film o Tv show presi dal database
 function getData(urlFinal, query, type, container) {
-$.ajax({
-url: "https://api.themoviedb.org/3/" + urlFinal,
-data: {
-  api_key: 'b7db4886e799d733a0c24ab663a6b884',
-  query: query,
-},
-success: function (data, stato) {
-  var results = data.results;
-  roundTheVote(results);
-  printResult(type, results, query);
-},
-error: function (richiesta, stato, errore) {
-  $(container).append("<li>È avvenuto un errore. " + errore + "</li>");
-}
-});
+  $.ajax({
+    url: "https://api.themoviedb.org/3/" + urlFinal,
+    data: {
+      api_key: 'b7db4886e799d733a0c24ab663a6b884',
+      query: query,
+    },
+    success: function (data, stato) {
+      var results = data.results;
+      roundTheVote(results);
+      printResult(type, results, query);
+    },
+    error: function (richiesta, stato, errore) {
+      $(container).append("<li>È avvenuto un errore. " + errore + "</li>");
+    }
+  });
 }
 
 // chiamata per il Cast usando l'ID
@@ -197,6 +241,7 @@ function printResult(type, results, query) {
       desc: item.overview,
       type: type,
       id: item.id,
+      genre: item.genre_ids,
       backdrop: 'https://image.tmdb.org/t/p/w1280/' + item.backdrop_path
     };
     if (item.backdrop_path == null) {
@@ -214,6 +259,7 @@ function printResult(type, results, query) {
   });
 }
 
+// Stampa il poster se è presenta altrimenti mette un'immagine di default
 function setPoster(item) {
   let imgUrl = '';
   if (item.poster_path) {
@@ -244,7 +290,7 @@ function addStars(item) {
   return stars;
 }
 
-// Inserisce la bandiera
+// Funzione per la bandiera
 function setFlag(item) {
   var availableFlags = ['en', 'de', 'es', 'fr', 'it', 'pt'];
   var itemLanguage = item.original_language;

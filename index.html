@@ -23,16 +23,19 @@
   <header>
     <div class="menu-bar">
       <img class="logo" src="img/boolflix.png" alt="">
-      <!-- <ul class="menu">
-        <li>Movies</li>
-        <li>Tv shows</li>
-      </ul> -->
       <div class="search-wrapper">
         <img class="search-icon" src="img/search-big.svg" alt="">
         <input class="search" type="text" name="" value="" placeholder="Search a title">
         <div class="arrow">
           <i class="fas fa-arrow-right"></i>
         </div>
+      </div>
+
+      <div class="select">
+        <select name="genres">
+          <option selected disabled>Choose a genre</option>
+          <option value="All">All</option>
+        </select>
       </div>
 
     </div>
@@ -50,7 +53,7 @@
   <!-- Handlebars template -->
   <script id="movies-template" type="text/x-handlebars-template">
 
-    <div data-id="{{id}}" data-type="{{type}}" class="element">
+    <div data-id="{{id}}" data-type="{{type}}" data-genres="{{genre}}" class="element">
       <div class="info">
         <div class="tit">{{title}}
           <div class="stars">Vote: {{{star}}}</div>
@@ -61,6 +64,7 @@
         <img src="{{poster_path}}" alt="{{title}}">
       </div>
     </div>
+    <!-- details -->
     <div class="details">
       <div class="detail-info">
         <p class="details-title">{{title}}</p>
@@ -68,14 +72,14 @@
         <p class="starring"></p>
         <p class="star">Vote: {{{star}}}</p>
         <p class="lang">Language: {{{lang}}}</p>
-
       </div>
       <div class="backdrop-img">
         <img src="{{backdrop}}" alt="{{title}}">
         <div class="backdrop"></div>
       </div>
       <div class="close"><i class="fas fa-times"></i></div>
-    </div>
+    </div><!-- enddetails -->
+
   </script> <!-- end Handlebars template -->
 
   <script src="script.js" charset="utf-8"></script>
