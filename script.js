@@ -242,7 +242,7 @@ function printResult(type, results, query) {
       type: type,
       id: item.id,
       genre: item.genre_ids,
-      backdrop: 'https://image.tmdb.org/t/p/w1280/' + item.backdrop_path
+      backdrop: '<img src="https://image.tmdb.org/t/p/w1280/' + item.backdrop_path + '" alt="">'
     };
     if (item.backdrop_path == null) {
       context.backdrop = '';
@@ -257,6 +257,10 @@ function printResult(type, results, query) {
       $(".series").append(html);
     }
   });
+
+
+
+
 }
 
 // Stampa il poster se è presenta altrimenti mette un'immagine di default
