@@ -12,8 +12,6 @@ $(document).ready(function () {
     var query = $('.search').val();
 
     if(event.which == 13) {
-
-
       if (query != "") {
 
         getData('search/movie', query, 'movie', '.movies')
@@ -73,9 +71,18 @@ $(document).ready(function () {
   // Azione sulla search
   $(document).on( "click", ".search-icon", function() {
     $('.search').toggleClass('active');
-    $('.arrow').toggleClass('active');
+    // $('.arrow').toggleClass('active');
     $(".search").focus();
   });
+
+  $(document).on( "keyup", ".search", function() {
+    if ($(".search").val().length >= 1) {
+      $('.arrow').addClass('active');
+    } else if ($(".search").val().length == 0) {
+      $('.arrow').removeClass('active');
+    }
+  });
+
 
 }); // end document ready
 
