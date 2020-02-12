@@ -13,6 +13,7 @@ $(document).ready(function () {
 
     if(event.which == 13) {
 
+
       if (query != "") {
 
         getData('search/movie', query, 'movie', '.movies')
@@ -24,6 +25,7 @@ $(document).ready(function () {
       } else {
         searchTrending()
       }
+      $(this).val('');
     }
   });
 
@@ -40,16 +42,13 @@ $(document).ready(function () {
       } else {
         searchTrending()
       }
+      $('.search').val('');
   });
 
-// Quando il campo si svuota vengono mostrati i trending now
-  $('.search').on('keyup', function() {
-      var query = $('.search').val();
-      if (query == ""){
-        searchTrending()
-      }
-  });
 
+  $('.menu-bar .logo').click(function() {
+      location.reload();
+  });
 
 
   // Azioni nel main, sulle immagini
