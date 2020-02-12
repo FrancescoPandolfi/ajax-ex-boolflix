@@ -368,7 +368,7 @@ select {
 /* Arrow */
 .select::after {
   /* content: '\25BC'; */
-  content: '\2198';
+  content: '&searr;';
   position: absolute;
   font-size: 12px;
   top: 0;
