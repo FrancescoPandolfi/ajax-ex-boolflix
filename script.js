@@ -18,7 +18,7 @@ $(document).ready(function () {
         getData('search/tv', query, 'tv', '.series')
 
         $('.first').html('Movies');
-        $('.second').html('TV shows');
+        $('.second').html('TV show');
 
       } else {
         searchTrending()
@@ -27,6 +27,7 @@ $(document).ready(function () {
     }
   });
 
+  // Al click sulla freccia parte la ricerca
   $('.arrow').click(function () {
     var query = $('.search').val();
       if (query != "") {
@@ -43,7 +44,7 @@ $(document).ready(function () {
       $('.search').val('');
   });
 
-
+  // Al click sul logo si ricarica la pagina
   $('.menu-bar .logo').click(function() {
       location.reload();
   });
@@ -71,10 +72,10 @@ $(document).ready(function () {
   // Azione sulla search
   $(document).on( "click", ".search-icon", function() {
     $('.search').toggleClass('active');
-    // $('.arrow').toggleClass('active');
     $(".search").focus();
   });
 
+  // Comportamento freccia dell'input
   $(document).on( "keyup", ".search", function() {
     if ($(".search").val().length >= 1) {
       $('.arrow').addClass('active');
@@ -95,8 +96,8 @@ function searchTrending() {
   resetContent();
   getTrending('trending/tv/day', 'tv', '.series')
   getTrending('trending/movies/day', 'movie', '.movies')
-  $('.first').html('Trending Movies this week');
-  $('.second').html('Trending TV shows this week');
+  $('.first').html('Trending Movies today');
+  $('.second').html('Trending TV show today');
 }
 
 // Funzione con chiamata per film o tv show di tendenza
