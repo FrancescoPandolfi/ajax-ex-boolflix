@@ -262,6 +262,7 @@ h2.second {
     margin-bottom: 10px;
     z-index: 18;
     max-width: 60%;
+    overflow-y: auto;
   }
     p.details-title {
       font-size: 40px;
@@ -309,21 +310,20 @@ h2.second {
   bottom: 0;
   height: 1000px;
   width: 1000px;
-  content: 'sdasd';
   z-index: 17;
 }
 
 @media screen and (max-width:700px) {
   .backdrop-img {
-    display: none;
+    opacity: 0.4;
   }
   p.details-title {
-    font-size: 30px;
-    line-height: 30px;
+    font-size: 24px;
+    line-height: 26px;
   }
   .detail-info {
-    top: 50px;
-    left: 50px;
+    top: 40px;
+    left: 40px;
     padding-right: 50px;
     max-width: 100%;
   }
