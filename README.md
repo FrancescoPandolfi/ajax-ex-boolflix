@@ -1,5 +1,5 @@
 [Disclaimer](#disclaimer)<br>
-[Anteprima](#breve-video-sul-funzionamento)<br>
+[Anteprima](https://netflix11.netlify.app/)<br>
 
 # Boolflix
 Boolflix è una replica di Netflix per desktop realizzata in HTML, CSS e JS. Utilizza l'API https://www.themoviedb.org/documentation/api per recuperare le informazioni attraverso delle chiamate AJAX.
